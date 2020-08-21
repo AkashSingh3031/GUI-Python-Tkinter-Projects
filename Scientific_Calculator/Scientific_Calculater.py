@@ -211,10 +211,11 @@ class Calc():
 
     #============================================Testing===================================
 
-    def pow(self, x):
+    def pow(self, x, y):
             self.x = x
+            self.y = y
             self.result = False
-            self.current = math.pow(int(self.x.get()))
+            self.current = math.pow(int(self.x.get()), int(self.y.get()))
             self.display(self.current)
 
     #=======================================================================================
@@ -386,11 +387,11 @@ def iExit():
 
 def Standered():
     root.resizable(width=False, height=False)
-    root.geometry("1080x568+0+0")
-
+    root.geometry("495x568+0+0")
+    
 def Scientific():
     root.resizable(width=False, height=False)
-    root.geometry("495x568+0+0")
+    root.geometry("1080x568+0+0")
 
 def help():
     print("I will help you")
