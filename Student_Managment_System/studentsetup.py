@@ -1,7 +1,7 @@
 from cx_Freeze import *
 import sys
 
-includefiles = ['student.ico']
+includefiles = ["student.ico"]
 excludes = []
 packages = []
 base = None
@@ -18,7 +18,7 @@ shortcut_table = [
      None,  #Arguments
      None,  #Description
      None,  #Hotkey
-     None,  #Icon
+     None,  #Iconḍḍ
      None,  #IconIndex
      None,  #ShowCmd
      "TARGETDIR",  #WkDir

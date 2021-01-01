@@ -5,11 +5,13 @@ import time
 from datetime import *
 import pymysql
 from tkinter import messagebox, ttk
+
 class Login:
     def __init__(self,root):
         self.root = root
         self.root.title("Login Window")
-        self.root.geometry("1530x790+0+0")
+        self.root.geometry("1470x750+40+25")
+        # self.root.geometry("1530x790+0+0")
         self.root.config(bg="#021e2f")
 
 
@@ -31,7 +33,7 @@ class Login:
         self.txt_email.place(x=250, y=180, width=350, height=35)
         
         pass_ = Label(login_frame, text="PASSWORD", font="times 18 bold", bg="white", fg="gray").place(x=250, y=250)
-        self.txt_pass_ = Entry(login_frame, font="times 15", bg="light gray")
+        self.txt_pass_ = Entry(login_frame, font="times 15", bg="light gray", show = "*")
         self.txt_pass_.place(x=250, y=280, width=350, height=35)
 
         btn_reg = Button(login_frame, text="Register New Account?", font="times 14", command=self.register_window, bd=0, bg="white", fg="#B00857", cursor='hand2').place(x=250, y=320)

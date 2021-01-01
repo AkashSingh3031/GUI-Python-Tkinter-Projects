@@ -66,7 +66,7 @@ if __name__ == '__main__':
     root = Tk()
     root.title("Untitled - Notepad")
     root.wm_iconbitmap("note.ico")
-    root.geometry("644x788")
+    root.geometry("644x688")
 
     #Add TextArea
     TextArea = Text(root, font="lucida 13")
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     # Help Menu Starts
     HelpMenu = Menu(MenuBar, tearoff=0)
-    HelpMenu.add_command(label = "About Notepad", command=about)
+    HelpMenu.add_command(label = "About Creater", command=about)
     MenuBar.add_cascade(label="Help", menu=HelpMenu)
 
     # Help Menu Ends
@@ -228,7 +228,7 @@ class Notepad:
                                        menu=self.__thisEditMenu)
 
         # To create a feature of description of the notepad
-        self.__thisHelpMenu.add_command(label="About Notepad",
+        self.__thisHelpMenu.add_command(label="About Creater",
                                         command=self.__showAbout)
         self.__thisMenuBar.add_cascade(label="Help",
                                        menu=self.__thisHelpMenu)

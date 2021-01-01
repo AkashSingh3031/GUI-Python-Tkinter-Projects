@@ -1,9 +1,11 @@
 import tkinter as tk
-from tkinter import font, colorchooser, filedialog, messagebox, ttk
+from tkinter import font, colorchooser, filedialog, messagebox
+from tkinter import  ttk
 import os
 
 main_application = tk.Tk()
-main_application.geometry("1530x800+0+0")
+main_application.geometry("1450x700+50+40")
+# main_application.geometry("1530x800+0+0")
 main_application.title("Text Editor:- By AKASH SINGH")
 
 # MAIN MENU
@@ -22,7 +24,7 @@ file = tk.Menu(main_menu, tearoff=False)
 copy_icon = tk.PhotoImage(file='icons/copy.png')
 paste_icon = tk.PhotoImage(file='icons/paste.png')
 cut_icon = tk.PhotoImage(file='icons/cut.png')
-clear_icon = tk.PhotoImage(file='icons/clear.png')
+clear_all_icon = tk.PhotoImage(file='icons/clear_all.png')
 find_icon = tk.PhotoImage(file='icons/find.png')
 
 edit = tk.Menu(main_menu, tearoff=False)
@@ -71,19 +73,19 @@ tool_bar.pack(side=tk.TOP, fill=tk.X)
 
 
 #FONT BOX
-font_tuple = tk.Label(main_application)
+font_tuple = tk.font.families()
 font_family = tk.StringVar()
 font_box = ttk.Combobox(tool_bar, width=30, textvariable=font_family, state='readonly')
 font_box['values'] = font_tuple
-# font_box.current(font_tuple.index('Arial'))
+font_box.current(font_tuple.index('Arial'))
 font_box.grid(row=0, column=0, padx=5)
 
 
 # SIZE BOX
 size_var = tk.IntVar()
-font_size = ttk.Combobox(tool_bar, width=30, textvariable=font_family, state='readonly')
-font_size['values'] = font_tuple
-# font_size.current(4)
+font_size = ttk.Combobox(tool_bar, width=14, textvariable=size_var, state='readonly')
+font_size['values'] = tuple(range(8, 81))
+font_size.current(4)
 font_size.grid(row=0, column=1, padx=5)
 
 
@@ -175,7 +177,7 @@ bold_btn.configure(command=change_bold)
 # ITALIC
 def change_italic():
     text_property = tk.font.Font(font=text_editor['font'])
-    if text_property.actual()['slant'] == 'normal':
+    if text_property.actual()['slant'] == 'roman':
         text_editor.configure(font=(current_font_family, current_font_size, 'italic'))
     if text_property.actual()['slant'] == 'italic':
         text_editor.configure(font=(current_font_family, current_font_size, 'normal'))
@@ -281,7 +283,19 @@ file.add_command(label='Open', image=open_icon, compound=tk.LEFT, accelerator='C
 
 
 def save_file(event=None):
-    pass
+    global url
+    try:
+        if url:
+            content = str(text_editor.get(1.0, tk.END))
+            with open(url, 'w', encoding='utf-8') as fw:
+                fw.write(content)
+        else:
+            url = filedialog.asksaveasfile(mode = 'w', defaultextension='.txt', filetypes=(('Text File', '*.txt'), ('All Files', '*.*')))
+            content2 = text_editor.get(1.0, tk.END)
+            url.write(content2)
+            url.close()
+    except:
+        return
 
 file.add_command(label='Save', image=save_icon, compound=tk.LEFT, accelerator='Ctrl+S', command=save_file)
 
@@ -300,18 +314,131 @@ file.add_command(label='Save As', image=new_icon, compound=tk.LEFT, accelerator=
 
 
 def exit_func(event=None):
-    pass
+    global url, text_changed
+    try:
+        if text_changed:
+            mbox = messagebox.askyesnocancel('Warning', 'Do you want to Save the file ?')
+            if mbox is True:
+                if url:
+                    content = text_editor.get(1.0, tk.END)
+                    with open(url, 'w', encoding='utf-8') as fw:
+                        fw.write(content)
+                        main_application.destroy()
+                else:
+                    content2 = str(text_editor.get(1.0, tk.END))
+                    url = filedialog.asksaveasfile(mode = 'w', defaultextension='.txt', filetypes=(('Text File', '*.txt'), ('All Files', '*.*')))
+                    url.write(content2)
+                    url.close()
+                    main_application.destroy()
+            elif mbox is False:
+                main_application.destroy()
+        else:
+            main_application.destroy()
+    except:
+        return     
 
-# file.add_command(label='Exit', image=exit_icon, compound=tk.LEFT, accelerator='Ctrl+Q', command=exit_func)
+file.add_command(label='Exit', image=exit_icon, compound=tk.LEFT, accelerator='Ctrl+Q', command=exit_func)
 
 
 def find_func(event=None):
-    pass
+    def find():
+        word = find_input.get()
+        text_editor.tag_remove('match', '1.0', tk.END)
+        matches=0
+        if word:
+            start_pos = '1.0'
+            while True:
+                start_pos = text_editor.search(word, start_pos, stopindex=tk.END)
+                if not start_pos:
+                    break
+                end_pos = f'{start_pos}+{len(word)}c'
+                text_editor.tag_add('match', start_pos, end_pos)
+                matches += 1
+                start_pos = end_pos
+                text_editor.tag_config('match', foreground='red', background='yellow')
+
+    def replace():
+        word = find_input.get()
+        replace_text = replace_text.get()
+        content = text_editor.get(1.0, tk.END)
+        new_content = content.replace(word, replace_text)
+        text_editor.delete(1.0, tk.END)
+        text_editor.insert(1.0, new_content)
+
+    find_dialogue = tk.Toplevel()
+    find_dialogue.geometry('450x250+500+200')
+    find_dialogue.title('Find')
+    find_dialogue.resizable(0, 0)
+
+    # FRAME
+    find_frame = ttk.LabelFrame(find_dialogue, text='Find/Replace')
+    find_frame.pack(pady=20)
+
+    # LABELS
+    text_find_label = ttk.Label(find_frame, text='Find: ')
+    text_replace_label = ttk.Label(find_frame, text='Replace: ')
+
+    # ENTRY
+    find_input = ttk.Entry(find_frame, width=30)
+    replace_input = ttk.Entry(find_frame, widget=30)
+
+    # BUTTON
+    find_button = ttk.Button(find_frame, text='Find', command=find)
+    replace_button = ttk.Button(find_frame, text='Replace', command=replace)
+
+    # LABEL GRID
+    text_find_label.grid(row=0, column=0, padx=4, pady=4)
+    text_replace_label.grid(row=1, column=0, padx=4, pady=4)
+
+    # ENTRY GRID
+    find_input.grid(row=0, column=1, padx=4, pady=4)
+    replace_input.grid(row=1, column=1, padx=4, pady=4)
+
+    # BUTTON GRID
+    find_button.grid(row=2, column=0, padx=4, pady=4)
+    replace_button.grid(row=2, column=1, padx=4, pady=4)
+
+    find_dialogue.mainloop()
 
 
+# EDIT COMMAND
+edit.add_command(label='Copy', image=copy_icon, compound=tk.LEFT, accelerator='Ctrl+C', command=lambda:text_editor.event_generate("<Control-c>"))
+edit.add_command(label='Paste', image=paste_icon, compound=tk.LEFT, accelerator='Ctrl+V', command=lambda:text_editor.event_generate("<Control-v>"))
+edit.add_command(label='Cut', image=cut_icon, compound=tk.LEFT, accelerator='Ctrl+X', command=lambda:text_editor.event_generate("<Control-x>"))
+edit.add_command(label='Clear All', image=clear_all_icon, compound=tk.LEFT, accelerator='Ctrl+Alt+X', command=lambda:text_editor.delete(1.0, tk.END))
+edit.add_command(label='Find', image=find_icon, compound=tk.LEFT, accelerator='Ctrl+F', command=find_func)
 
 
+# VIEW CHECK BUTTON
+show_statusbar = tk.BooleanVar()
+show_statusbar.set(True)
+show_toolbar = tk.BooleanVar()
+show_toolbar.set(True)
 
+def hide_toolbar():
+    global show_toolbar
+    if show_toolbar:
+        tool_bar.pack_forget()
+        show_toolbar = False
+    else:
+        text_editor.pack_forget()
+        status_bar.pack_forget()
+        tool_bar.pack(side=tk.TOP, fill=tk.X)
+        text_editor.pack(fill=tk.BOTH, expand=True)
+        status_bar.pack(side=tk.BOTTOM)
+        show_toolbar = True
+
+def hide_statusbar():
+    global show_statusbar
+    if show_statusbar:
+        status_bar.pack_forget()
+        show_statusbar = False
+    else:
+        status_bar.pack(side=tk.BOTTOM)
+        show_statusbar = True
+    
+view.add_checkbutton(label='Tool Bar', onvalue=True, offvalue=0, variable=show_toolbar, image=tool_bar_icon, compound=tk.LEFT, command=hide_toolbar)
+view.add_checkbutton(label='Status Bar', onvalue=1, offvalue=False, variable=show_statusbar, image=status_bar_icon, compound=tk.LEFT, command=hide_statusbar)
 
 
 # COLOR THEME

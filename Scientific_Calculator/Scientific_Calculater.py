@@ -124,6 +124,14 @@ class Calc():
             self.current = math.acosh(float(txtDisplay.get()))
             self.display(self.current)
 
+    def atanh(self):
+            try:
+                self.result = False
+                self.current = math.atanh(float(txtDisplay.get()))
+                self.display(self.current)
+            except:
+                pass
+
     def asinh(self):
             self.result = False
             self.current = math.asinh(float(txtDisplay.get()))
@@ -170,26 +178,27 @@ class Calc():
             self.display(self.current)
 
     def Clear_Entry(self):
+            try:
+                self.current = self.current[:-1]
+                self.display(self.current)
+            except:
+                    print("Float value Result not clear")
+            
+    def all_Clear_Entry(self):
             self.result = False
             self.current = "0"
             self.display(0)
             self.input_value = True
-
-    def all_Clear_Entry(self):
-            self.Clear_Entry()
-            self.total = 0
-
+        
     def MathsPM(self):
             self.result = False
             self.current = -(float(txtDisplay.get()))
             self.display(self.current)
 
     def squared(self):
-        self.result = False
-        self.current = math.sqrt(float(txtDisplay.get()))
-        self.display(self.current)
-
-    #=======================================Testing Complete========================================
+            self.result = False
+            self.current = math.sqrt(float(txtDisplay.get()))
+            self.display(self.current)
 
     def factorial(self):
         try:
@@ -212,10 +221,8 @@ class Calc():
     #============================================Testing===================================
 
     def pow(self, x, y):
-            self.x = x
-            self.y = y
             self.result = False
-            self.current = math.pow(int(self.x.get()), int(self.y.get()))
+            self.current = math.pow(int(txtDisplay.get()), int(txtDisplay.get()))
             self.display(self.current)
 
     #=======================================================================================
@@ -236,24 +243,19 @@ for j in range(2, 5):
         btn[i]["command"] = lambda X = numberpad[i]: added_value.numberEnter(X)
         i += 1
 
-#=================================Testing Complete========================================================
-
-btnfact = Button(calc, text = "x!", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.factorial)
-btnfact.grid(row =1, column = 8, pady = 1)
-
-btnfabs = Button(calc, text = "|x|", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.fabs)
-btnfabs.grid(row =2, column = 8, pady = 1)
-
-btnrad = Button(calc, text = "rad", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.radians)
-btnrad.grid(row =5, column = 8, pady = 1)
 #====================================Testing=================================================================
 
 btnpow = Button(calc, text = "pow", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.pow)
 btnpow.grid(row =3, column = 8, pady = 1)
 
-btnComma = Button(calc, text = ",", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.operation(","))
-btnComma.grid(row =4, column = 8, pady = 1)
+btnComma = Button(calc, text = "(", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter("("))
+btnComma.grid(row =1, column = 9, pady = 1)
 
+btnComma = Button(calc, text = ")", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter(")"))
+btnComma.grid(row =2, column = 9, pady = 1)
+
+btnComma = Button(calc, text = ",", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter(","))
+btnComma.grid(row =3, column = 9, pady = 1)
 
 #====================================STANDERED  CALCULATER==============================================================
 
@@ -303,9 +305,11 @@ btntan.grid(row =1, column = 6, pady = 1)
 btnsin = Button(calc, text = "sin", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.sin)
 btnsin.grid(row =1, column = 7, pady = 1)
 
-# btnsin = Button(calc, text = "sin", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.sin)
-# btnsin.grid(row =1, column = 8, pady = 1)
+btnfact = Button(calc, text = "x!", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.factorial)
+btnfact.grid(row =1, column = 8, pady = 1)
 
+btnComma = Button(calc, text = "(", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter("("))
+btnComma.grid(row =1, column = 9, pady = 1)
 #=======================================================================================================================
 btn2Pi = Button(calc, text = "2π", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.tau)
 btn2Pi.grid(row =2, column = 4, pady = 1)
@@ -319,40 +323,49 @@ btntanh.grid(row =2, column = 6, pady = 1)
 btnsinh = Button(calc, text = "sinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.sinh)
 btnsinh.grid(row =2, column = 7, pady = 1)
 
-# btnsinh = Button(calc, text = "sinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.sinh)
-# btnsinh.grid(row =2, column = 8, pady = 1)
+btnfabs = Button(calc, text = "|x|", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.fabs)
+btnfabs.grid(row =2, column = 8, pady = 1)
+
+btnComma = Button(calc, text = ")", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter(")"))
+btnComma.grid(row =2, column = 9, pady = 1)
 
 #=======================================================================================================================
 btnlog = Button(calc, text = "ln", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.log)
 btnlog.grid(row =3, column = 4, pady = 1)
 
-btnExp = Button(calc, text = "Exp", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.exp)
-btnExp.grid(row =3, column = 5, pady = 1)
+btnacosh = Button(calc, text = "acosh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.acosh)
+btnacosh.grid(row =3, column = 5, pady = 1)
 
-btnMod = Button(calc, text = "%", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = lambda: added_value.operation("mod"))
-btnMod.grid(row =3, column = 6, pady = 1)
+btnatanh = Button(calc, text = "atanh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.atanh)
+btnatanh.grid(row =3, column = 6, pady = 1)
 
-btnE = Button(calc, text = "e", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.e)
-btnE.grid(row =3, column = 7, pady = 1)
+btnasinh = Button(calc, text = "asinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.asinh)
+btnasinh.grid(row =3, column = 7, pady = 1)
 
-# btnsinh = Button(calc, text = "sinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.sinh)
-# btnsinh.grid(row =3, column = 8, pady = 1)
+btnpow = Button(calc, text = "pow", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.pow)
+btnpow.grid(row =3, column = 8, pady = 1)
+
+btnComma = Button(calc, text = ",", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue",command = lambda: added_value.numberEnter(","))
+btnComma.grid(row =3, column = 9, pady = 1)
 
 #=======================================================================================================================
 btnlog2 = Button(calc, text = "log2", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.log2)
 btnlog2.grid(row =4, column = 4, pady = 1)
 
-btndeg = Button(calc, text = "deg", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.degrees)
-btndeg.grid(row =4, column = 5, pady = 1)
+btnExp = Button(calc, text = "Exp", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.exp)
+btnExp.grid(row =4, column = 5, pady = 1)
 
-btnacosh = Button(calc, text = "acosh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.acosh)
-btnacosh.grid(row =4, column = 6, pady = 1)
+btnMod = Button(calc, text = "%", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = lambda: added_value.operation("mod"))
+btnMod.grid(row =4, column = 6, pady = 1)
 
-btnasinh = Button(calc, text = "asinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.asinh)
-btnasinh.grid(row =4, column = 7, pady = 1)
+btnE = Button(calc, text = "e", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.e)
+btnE.grid(row =4, column = 7, pady = 1)
 
-# btnsinh = Button(calc, text = "sinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, command = added_value.sinh)
-# btnsinh.grid(row =4, column = 8, pady = 1)
+btndeg = Button(calc, text = "deg", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.degrees)
+btndeg.grid(row =4, column = 8, pady = 1)
+
+btndeg = Button(calc, text = "deg", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.degrees)
+btndeg.grid(row =4, column = 9, pady = 1)
 
 #=======================================================================================================================
 btnlog10 = Button(calc, text = "log10", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.log10)
@@ -367,11 +380,14 @@ btnexpm1.grid(row =5, column = 6, pady = 1)
 btnlgamma = Button(calc, text = "lgamma", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.lgamma)
 btnlgamma.grid(row =5, column = 7, pady = 1)
 
-# btnsinh = Button(calc, text = "sinh", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.sinh)
-# btnsinh.grid(row =5, column = 8, pady = 1)
+btnrad = Button(calc, text = "rad", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.radians)
+btnrad.grid(row =5, column = 8, pady = 1)
+
+btnrad = Button(calc, text = "rad", width = 6, height = 2, font = "arial 20 bold", bd = 4, bg = "powder blue", command = added_value.radians)
+btnrad.grid(row =5, column = 9, pady = 1)
 
 #=======================================================================================================================
-lblDisplay = Label(calc, text = "Scientific Calculater", font = "arial  35  bold", justify = CENTER)
+lblDisplay = Label(calc, text = "Scientific Calculater", font = "arial  50  bold", justify = CENTER)
 lblDisplay.grid(row = 0, column = 4, columnspan = 8)
 
 #=======================================================================================================================
@@ -391,7 +407,7 @@ def Standered():
     
 def Scientific():
     root.resizable(width=False, height=False)
-    root.geometry("1080x568+0+0")
+    root.geometry("1195x568+0+0")
 
 def help():
     print("I will help you")

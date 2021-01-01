@@ -7,7 +7,8 @@ class Register:
     def __init__(self,root):
         self.root = root
         self.root.title("Registation Window")
-        self.root.geometry("1530x790+0+0")
+        # self.root.geometry("1530x790+0+0")
+        self.root.geometry("1470x750+40+25")
 
         # BACKGROUND IMAGE
         self.bg = ImageTk.PhotoImage(file='images/bg.png')

@@ -15,7 +15,8 @@ class Window1:
     def __init__(self, master):
         self.master = master
         self.master.title("Login System")
-        self.master.geometry("1550x750+0+0")
+        self.master.geometry("1470x750+40+25")
+        # self.master.geometry("1550x750+0+0")
         self.master.config(bg = "powder blue")
         self.frame = Frame(self.master, bg = "powder blue")
         self.frame.pack()
@@ -63,7 +64,7 @@ class Window1:
     def Login_System(self):
         u = self.Username.get()
         p = self.Password.get()
-        if (u == str(123456789) and p == str(9794423031)):
+        if (u == 'Akash Singh' and p == str(9794423031)):
             self.newWindow = Toplevel(self.master)
             self.app = Window2(self.newWindow)
         else:
@@ -94,7 +95,8 @@ class Window2:
     def __init__(self, master):
         self.master = master
         self.master.title("Login System")
-        self.master.geometry("1550x750+0+0")
+        # self.master.geometry("1550x750+0+0")
+        self.master.geometry("1470x750+40+25")
         self.master.config(bg = "cadet blue")
         self.frame = Frame(self.master, bg = "powder blue")
         self.frame.pack()
